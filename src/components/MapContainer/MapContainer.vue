@@ -17,6 +17,7 @@ export default {
         input: "",
       },
       auto: null,
+      placeSearch: null,
     };
   },
 
@@ -35,7 +36,15 @@ export default {
       AMapLoader.load({
         key: "2c1c4affeb410923990fec54c5af721a", // 申请好的Web端开发者Key，首次调用 load 时必填
         version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-        plugins: ["AMap.AutoComplete"], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+        plugins: [
+          "AMap.ToolBar",
+          "AMap.Scale",
+          "AMap.HawkEye",
+          "AMap.MapType",
+          "AMap.Geolocation",
+          "AMap.AutoComplete",
+          "AMap.PlaceSearch",
+        ], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
       })
         .then((AMap) => {
           this.map = new AMap.Map("container", {
@@ -45,6 +54,11 @@ export default {
             zoom: 10, //初始化地图级别
             center: [121.473667, 31.230525], //初始化地图中心点位置
           });
+          this.map.addControl(new AMap.Scale());
+          this.map.addControl(new AMap.ToolBar());
+          this.map.addControl(new AMap.HawkEye());
+          this.map.addControl(new AMap.MapType());
+          this.map.addControl(new AMap.Geolocation());
           this.auto = new AMap.AutoComplete(this.autoOptions);
         })
         .catch((e) => {
